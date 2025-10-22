@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PulseBeta — PWA</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2f9fff"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+  <header class="topbar"><div class="logo">🌈 <strong>PulseBeta</strong></div><div class="hint">Beta PWA</div></header>
+  <main>
+    <section class="controls">
+      <button id="locBtn">📍 Udostępnij lokalizację</button>
+      <button id="mapBtn">🗺️ Mapa emocji</button>
+      <button id="addBtn">✍️ Dodaj post / nastrój</button>
+      <button id="chatBtn">💬 Chat</button>
+    </section>
+
+    <section id="mapSection" class="panel hidden">
+      <div id="map" style="height:60vh;"></div>
+    </section>
+
+    <section id="addSection" class="panel hidden">
+      <div class="card">
+        <h3>Dodaj nastrój</h3>
+        <div class="emo-row">
+          <button class="emo" data-emo="😌">😌</button>
+          <button class="emo" data-emo="😔">😔</button>
+          <button class="emo" data-emo="🤩">🤩</button>
+          <button class="emo" data-emo="😡">😡</button>
+          <button class="emo" data-emo="❤️">❤️</button>
+        </div>
+        <input id="nick" placeholder="Pseudonim (np. SkyDreamer)"/>
+        <input id="city" placeholder="Miasto (np. Łuków)"/>
+        <textarea id="postText" placeholder="Co czujesz?"></textarea>
+        <label class="switch"><input type="checkbox" id="preciseLoc"/> Dokładna lokalizacja</label>
+        <input type="file" id="imageInput" accept="image/*"/>
+        <div style="margin-top:8px;"><button id="publishBtn">Opublikuj</button></div>
+      </div>
+    </section>
+
+    <section id="feedSection" class="panel">
+      <div class="card">
+        <h3>Feed (ostatnie 24h)</h3>
+        <div id="feed"></div>
+      </div>
+    </section>
+
+    <section id="chatSection" class="panel hidden">
+      <div class="card">
+        <h3>Chat test (E2EE)</h3>
+        <input id="roomInput" placeholder="Room ID"/>
+        <input id="msgInput" placeholder="Wiadomość"/>
+        <div style="margin-top:8px;"><button id="joinRoomBtn">Dołącz</button> <button id="sendMsgBtn">Wyślij</button></div>
+        <div id="chatLog" class="chatlog"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>PulseBeta — test PWA. Backend: https://pulsebeta.onrender.com</footer>
+
+  <!-- libs -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+
+  <script>
+    // backend URL used by the PWA
+    window.BACKEND = "https://pulsebeta.onrender.com";
+  </script>
+
+  <script src="app.js"></script>
+  <script>
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('service-worker.js').then(()=>console.log('SW registered')).catch(()=>console.log('SW failed'));
+    }
+  </script>
+</body>
+</html>
